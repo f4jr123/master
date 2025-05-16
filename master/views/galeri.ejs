@@ -1,20 +1,36 @@
 <%- include('partial/header') %>
-<h2>Galeri <%= kategori %></h2>
-<div class="row">
-  <% data.forEach(objek => { %>
-    <div class="col-md-4">
-      <div class="card mb-4">
-        <img src="/img/<%= objek.image %>" class="card-img-top" alt="<%= objek.nama %>">
-        <div class="card-body">
-          <h5 class="card-title"><%= objek.nama %></h5>
-          <p class="card-text"><%= objek.deskripsi %></p>
-          <audio controls>
-            <source src="/audio/<%= objek.audio %>" type="audio/mpeg">
-            Your browser does not support the audio element.
-          </audio>
+
+<h1 class="mt-4 mb-4 text-center">Galeri <%= kategori %></h1>
+
+<% if (data.length > 0) { %>
+  <div class="row">
+    <% data.forEach(item => { %>
+      <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+          <img src="/img/<%= item.image %>" class="card-img-top" alt="<%= item.nama %>" style="height: 200px; object-fit: cover;">
+          <div class="card-body">
+            <h5 class="card-title"><%= item.nama %></h5>
+            <p class="card-text"><%= item.deskripsi || '-' %></p>
+            <audio controls class="w-100 mb-2">
+              <source src="/audio/<%= item.audio %>" type="audio/mpeg">
+              Browser Anda tidak mendukung elemen audio.
+            </audio>
+
+            <% if (loggedIn) { %>
+              <a href="/admin/edit/<%= item.id %>" class="btn btn-warning btn-sm">Edit</a>
+              <form action="/admin/delete/<%= item.id %>" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+              </form>
+            <% } %>
+          </div>
         </div>
       </div>
-    </div>
-  <% }) %>
-</div>
+    <% }) %>
+  </div>
+<% } else { %>
+  <div class="alert alert-warning text-center" role="alert">
+    Tidak ada data pada kategori ini.
+  </div>
+<% } %>
+
 <%- include('partial/footer') %>

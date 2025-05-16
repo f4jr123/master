@@ -1,19 +1,19 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var flash = require('express-flash');
-var session = require('express-session');
+const flash = require('express-flash');
+const session = require('express-session');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-//var hewanRouter = require('./routes/hewan');
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+// const hewanRouter = require('./routes/hewan');
 
-var app = express();
+const app = express();
 
-// view engine setup
+// View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -24,33 +24,31 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-  cookie:{
-    maxAge: 6000
+  cookie: {
+    maxAge: 60000 
   },
-  store: new session.MemoryStore,
+  store: new session.MemoryStore(),
   saveUninitialized: true,
-  resave: 'true',
-  secret: 'secret'
-}))
+  resave: true,
+  secret: 'secret-key'
+}));
 
-app.use(flash())
+app.use(flash());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-//app.use('/hewan',hewanRouter);
+// app.use('/hewan', hewanRouter); 
 
-// catch 404 and forward to error handler
+// 404 error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+// Error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });
