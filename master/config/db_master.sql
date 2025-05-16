@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 11, 2025 at 07:57 AM
+-- Generation Time: May 16, 2025 at 10:28 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- PHP Version: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,14 +24,48 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `data_objek`
+-- Table structure for table `catgori`
 --
 
-CREATE TABLE `data_objek` (
+CREATE TABLE `catgori` (
   `id` int(11) NOT NULL,
-  `objek` varchar(100) NOT NULL,
-  `kategori_id` int(11) NOT NULL,
-  `image` varchar(255) DEFAULT NULL
+  `kategori` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `catgori`
+--
+
+INSERT INTO `catgori` (`id`, `kategori`) VALUES
+(2, 'buah'),
+(1, 'hewan'),
+(3, 'kendaraan');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `objek`
+--
+
+CREATE TABLE `objek` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(100) NOT NULL,
+  `deskripsi` text DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `audio` varchar(255) DEFAULT NULL,
+  `kategori_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `pasword` varchar(10) NOT NULL,
+  `username` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -39,20 +73,57 @@ CREATE TABLE `data_objek` (
 --
 
 --
--- Indexes for table `data_objek`
+-- Indexes for table `catgori`
 --
-ALTER TABLE `data_objek`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `catgori`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `kategori` (`kategori`);
+
+--
+-- Indexes for table `objek`
+--
+ALTER TABLE `objek`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `kategori_id` (`kategori_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `pasword` (`pasword`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `data_objek`
+-- AUTO_INCREMENT for table `catgori`
 --
-ALTER TABLE `data_objek`
+ALTER TABLE `catgori`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `objek`
+--
+ALTER TABLE `objek`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `objek`
+--
+ALTER TABLE `objek`
+  ADD CONSTRAINT `objek_ibfk_1` FOREIGN KEY (`kategori_id`) REFERENCES `catgori` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
