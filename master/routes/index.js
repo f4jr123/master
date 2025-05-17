@@ -17,6 +17,7 @@ router.get('/galeri/:kategori', (req, res) => {
     if (err) throw err;
     console.log(results);
     res.render('galeri', { data: results, kategori });
+    //oggedIn: req.session.loggedIn || false
   });
 });
 router.get('/login',(req,res) => {
@@ -24,10 +25,11 @@ router.get('/login',(req,res) => {
 });
 
 router.post('/login', (req, res) => {
-  const { username, password } = req.body;
+  const { username, pasword } = req.body;
   const query = 'SELECT * FROM users WHERE username = ? AND pasword = ?';
-  database.query(query, [username, password], (err, results) => {
+  database.query(query, [username, pasword], (err, results) => {
     if (err) throw err;
+    console.log('Results:', results); // Debug
     if (results.length > 0) {
       req.session.user = results[0];
       res.redirect('/admin');
@@ -59,7 +61,7 @@ router.get('/admin/tambah', (req, res) => {
   });
 });
 
-router.post('/admin/tambah', upload.fields([{ nama: 'image' }, { nama: 'audio' }]), (req, res) => {
+router.post('/admin/tambah', upload.fields([{ name: 'image' }, { name: 'audio' }]), (req, res) => {
   const { nama, kategori_id } = req.body;
   const image = req.files['image'][0].filename;
   const audio = req.files['audio'][0].filename;

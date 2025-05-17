@@ -1,0 +1,34 @@
+<%- include('partial/header') %>
+
+<div class="container mt-4">
+  <h1 class="mb-4 text-center">Tambah Data Objek</h1>
+  <a href="/admin" class="btn btn-secondary mb-3">Kembali</a>
+
+  <form action="/admin/store" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label for="nama" class="form-label">Nama</label>
+      <input type="text" nama="nama" id="nama" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="image" class="form-label">Gambar</label>
+      <input type="file" name="image" id="image" class="form-control" accept="image/*" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="audio" class="form-label">Audio</label>
+      <input type="file" name="audio" id="audio" class="form-control" accept="audio/*" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="deskripsi" class="form-label">Deskripsi</label>
+      <textarea nama="deskripsi" id="deskripsi" class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">Simpan</button>
+    </div>
+  </form>
+</div>
+
+<%- include('partial/footer') %>

@@ -1,0 +1,43 @@
+<%- include('partial/header') %>
+
+<h1 class="mt-4 mb-4 text-center">Halaman Admin</h1>
+
+<a href="/admin/tambah" class="btn btn-primary mb-3">Tambah Data</a>
+
+<div class="table-responsive">
+  <table class="table table-bordered table-striped">
+    <thead class="table-dark text-center">
+      <tr>
+        <th>ID</th>
+        <th>Nama objek</th>
+        <th>Gambar</th>
+        <th>Audio</th>
+        <th>Deskripsi</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% data.forEach((item, index) => { %>
+        <tr>
+          <td class="text-center"><%= index + 1 %></td>
+          <td><%= item.nama %></td>
+          <td class="text-center"><img src="/img/<%= item.image %>" width="100"></td>
+          <td class="text-center">
+            <audio controls>
+              <source src="/audio/<%= item.audio %>" type="audio/mpeg">
+            </audio>
+          </td>
+          <td><%= item.deskripsi %></td>
+          <td class="text-center">
+            <a href="/admin/edit/<%= item.id %>" class="btn btn-warning btn-sm">Edit</a>
+            <form action="/admin/delete/<%= item.id %>" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+              <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('partial/footer') %>
