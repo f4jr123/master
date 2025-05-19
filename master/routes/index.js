@@ -16,8 +16,9 @@ router.get('/galeri/:kategori', (req, res) => {
   database.query(sql, [kategori], (err, results) => {
     if (err) throw err;
     console.log(results);
-    res.render('galeri', { data: results, kategori });
-    //oggedIn: req.session.loggedIn || false
+    res.render('galeri', { data: results, kategori,
+    loggedIn: req.session.user ? true : false
+  });
   });
 });
 router.get('/login',(req,res) => {
@@ -62,11 +63,19 @@ router.get('/admin/tambah', (req, res) => {
 });
 
 router.post('/admin/tambah', upload.fields([{ name: 'image' }, { name: 'audio' }]), (req, res) => {
-  const { nama, kategori_id } = req.body;
+  const { nama,deskripsi, kategori_id } = req.body;
   const image = req.files['image'][0].filename;
   const audio = req.files['audio'][0].filename;
   const query = 'INSERT INTO objek (nama, image, audio, kategori_id) VALUES (?, ?, ?, ?)';
   database.query(query, [nama, image, audio, kategori_id], (err) => {
+    if (err) throw err;
+    res.redirect('/admin');
+  });
+});
+router.post('/admin/delete/:id', (req , res)=>{
+  const id = req.params.id;
+  const query = 'DELETE FROM objek WHERE id=?';
+  database.query(query, [id],(err)=>{
     if (err) throw err;
     res.redirect('/admin');
   });

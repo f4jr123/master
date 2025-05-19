@@ -4,10 +4,10 @@
   <h1 class="mb-4 text-center">Tambah Data Objek</h1>
   <a href="/admin" class="btn btn-secondary mb-3">Kembali</a>
 
-  <form action="/admin/store" method="POST" enctype="multipart/form-data">
+  <form action="/admin/tambah" method="POST" enctype="multipart/form-data">
     <div class="mb-3">
       <label for="nama" class="form-label">Nama</label>
-      <input type="text" nama="nama" id="nama" class="form-control" required>
+      <input type="text" name="nama" id="nama" class="form-control" required>
     </div>
 
     <div class="mb-3">
@@ -24,6 +24,15 @@
       <label for="deskripsi" class="form-label">Deskripsi</label>
       <textarea nama="deskripsi" id="deskripsi" class="form-control" rows="3"></textarea>
     </div>
+    <div class="mb-3">
+  <label for="kategori_id" class="form-label">Kategori</label>
+  <select name="kategori_id" id="kategori_id" class="form-control" required>
+    <% catgori.forEach((item) => { %>
+      <option value="<%= item.id %>"><%= item.kategori %></option>
+    <% }); %>
+  </select>
+</div>
+
 
     <div class="text-center">
       <button type="submit" class="btn btn-primary">Simpan</button>
