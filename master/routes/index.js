@@ -80,12 +80,6 @@ router.post('/admin/delete/:id', (req , res)=>{
     res.redirect('/admin');
   });
 });
-router.post('/admin/edit/;id',(req, res)=>{
-  const id = req.params.id;
-  database.query(database.query, [id],(err)=>{
-    if(err) throw err;
-    res.redirect('/admin');
-  });
-});
+
 
 module.exports = router;
