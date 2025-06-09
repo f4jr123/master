@@ -80,6 +80,39 @@ router.post('/admin/delete/:id', (req , res)=>{
     res.redirect('/admin');
   });
 });
+// filepath: d:\kelompok\master\master\routes\index.js
+router.get('/admin', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+  const page = parseInt(req.query.page) || 1;
+  const limit = 5;
+  const offset = (page - 1) * limit;
 
+  database.query('SELECT COUNT(*) AS total FROM objek', (err, countResult) => {
+    if (err) throw err;
+    const total = countResult[0].total;
+    const totalPages = Math.ceil(total / limit);
+
+    database.query('SELECT * FROM objek LIMIT ? OFFSET ?', [limit, offset], (err, results) => {
+      if (err) throw err;
+      res.render('admin', {
+        data: results,
+        currentPage: page,
+        totalPages: totalPages
+      });
+    });
+  });
+});
+router.get('/admin', (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+  const query = 'SELECT * FROM objek';
+  database.query(query, (err, results) => {
+    if (err) throw err;
+    res.render('admin', { data: results });
+  });
+});
 
 module.exports = router;
